@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 const { spawnSync } = require('node:child_process')
 
-const directUrl = process.env.POSTGRES_URL_NON_POOLING || process.env.POSTGRES_URL || process.env.DATABASE_URL
+const directUrl =
+  process.env.POSTGRES_URL_NON_POOLING ||
+  process.env.DATABASE_URL_UNPOOLED ||
+  process.env.POSTGRES_URL ||
+  process.env.DATABASE_URL
 
 if (!directUrl) {
   console.log('[vercel-build] Skipping prisma migrate deploy: no direct DB URL found (POSTGRES_URL_NON_POOLING/POSTGRES_URL/DATABASE_URL)')

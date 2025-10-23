@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '../../../lib/prisma'
+import { PrismaClient } from '@prisma/client'
 
-export const dynamic = 'force-dynamic' // esto evita la compilación estática
+export const dynamic = 'force-dynamic'
+
+// Crear una nueva instancia de PrismaClient para cada request
+const prisma = new PrismaClient()
 
 export async function GET(request: Request) {
   try {
@@ -15,23 +18,24 @@ export async function GET(request: Request) {
         where: { id: Number(id) },
         include: { usuario: true }
       })
+      await prisma.$disconnect()
       return NextResponse.json({ data: listing ?? null })
     }
 
-  const where: any = {}
-  if (search.get('universidad')) where.universidad = search.get('universidad')!
-  if (search.get('tipo')) where.tipo = search.get('tipo')!
-  if (search.get('verificado')) where.verificado = search.get('verificado') === 'true'
+    const where: any = {}
+    if (search.get('universidad')) where.universidad = search.get('universidad')!
+    if (search.get('tipo')) where.tipo = search.get('tipo')!
+    if (search.get('verificado')) where.verificado = search.get('verificado') === 'true'
 
-  // price range
-  const min = search.get('min') ? Number(search.get('min')) : undefined
-  const max = search.get('max') ? Number(search.get('max')) : undefined
+    // price range
+    const min = search.get('min') ? Number(search.get('min')) : undefined
+    const max = search.get('max') ? Number(search.get('max')) : undefined
 
-  const listings = await prisma.listing.findMany({
-    where,
-    include: { usuario: true },
-    orderBy: { createdAt: 'desc' }
-  })
+    const listings = await prisma.listing.findMany({
+      where,
+      include: { usuario: true },
+      orderBy: { createdAt: 'desc' }
+    })
 
   // Excluir elementos específicos por título
   const excludeTitles = new Set([

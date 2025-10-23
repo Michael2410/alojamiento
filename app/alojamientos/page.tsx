@@ -35,7 +35,7 @@ export default function AlojamientosPage() {
         />
       </div>
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-slate-900">Alojamientos</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-slate-900">DROMIE</h2>
       </div>
       <FiltersBar onFilter={(params) => load(params)} />
       {loading ? <p>Cargando...</p> : (
