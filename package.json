@@ -9,7 +9,7 @@
     "prisma:migrate": "prisma migrate dev --name init",
     "prisma:studio": "prisma studio",
     "prisma:seed": "node prisma/seed.js",
-    "vercel-build": "node -e \"require('fs').copyFileSync('prisma/schema.production.prisma', 'prisma/schema.prisma')\" && npx prisma generate && npx prisma db push --force-reset && next build"
+    "vercel-build": "node -e \"require('fs').copyFileSync('prisma/schema.production.prisma', 'prisma/schema.prisma')\" && npx prisma generate && npx prisma migrate deploy && next build"
   },
   "dependencies": {
     "next": "14.0.0",
