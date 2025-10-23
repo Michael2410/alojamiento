@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../../../lib/prisma'
 
-export const dynamic = 'force-dynamic'
-
-// Crear una nueva instancia de PrismaClient para cada request
-const prisma = new PrismaClient()
+export const dynamic = 'force-dynamic' // esto evita la compilación estática
 
 export async function GET(request: Request) {
   try {
@@ -18,7 +15,6 @@ export async function GET(request: Request) {
         where: { id: Number(id) },
         include: { usuario: true }
       })
-      await prisma.$disconnect()
       return NextResponse.json({ data: listing ?? null })
     }
 

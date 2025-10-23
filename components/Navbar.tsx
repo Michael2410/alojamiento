@@ -41,7 +41,7 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-40 border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <Link href="/" className="text-primary font-bold tracking-tight">AlojamientoPT</Link>
+        <Link href="/" className="text-primary font-bold tracking-tight">DROMIE</Link>
         <div className="flex items-center gap-3 md:gap-4">
           <Link href="/alojamientos" className="text-slate-700 hover:text-primary transition-colors">Alojamientos</Link>
           {user ? (
