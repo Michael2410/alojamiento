@@ -4,8 +4,10 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  // Runtime URL (Accelerate / Data Proxy compatible)
+  url       = env("PRISMA_DATABASE_URL")
+  // Direct URL for migrations (non-pooled)
+  directUrl = env("POSTGRES_URL")
 }
 
 model Usuario {
