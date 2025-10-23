@@ -1,0 +1,56 @@
+"use client"
+import { useEffect, useState } from 'react'
+import Chat from '../../components/Chat'
+
+export default function MisReservasPage() {
+  const [reservas, setReservas] = useState<any[]>([])
+  const [user, setUser] = useState<any>(null)
+  const [showChat, setShowChat] = useState<{[id:number]:boolean}>({})
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const u = localStorage.getItem('usuario')
+      if (u) {
+        const usuario = JSON.parse(u)
+        setUser(usuario)
+        fetch(`/api/reservations?studentId=${usuario.id}`)
+          .then(r => r.json())
+          .then(json => setReservas(json.data ?? []))
+      }
+    }
+  }, [])
+
+  if (!user) return <p className="text-center mt-8">Inicia sesión para ver tus reservas.</p>
+
+  return (
+    <div>
+      <h2 className="text-2xl font-semibold mb-4">Mis Reservas</h2>
+      {reservas.length === 0 ? (
+        <p>No tienes reservas aún.</p>
+      ) : (
+        <div className="grid gap-4">
+          {reservas.map(r => (
+            <div key={r.id} className="bg-white p-4 rounded shadow">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                <div>
+                  <div className="font-semibold">{r.listing?.titulo}</div>
+                  <div className="text-sm text-gray-600">{r.listing?.universidad} · ${r.listing?.precio}</div>
+                  <div className="text-sm">Desde: {r.startDate ? new Date(r.startDate).toLocaleDateString() : '-'}</div>
+                  <div className="text-sm">Hasta: {r.endDate ? new Date(r.endDate).toLocaleDateString() : '-'}</div>
+                  <div className="text-sm">Estado: {r.status}</div>
+                </div>
+                <div>
+                  {!showChat[r.id] && (
+                    <button onClick={() => setShowChat(s => ({...s, [r.id]:true}))} className="bg-primary text-white px-3 py-1 rounded">Chatear con anfitrión</button>
+                  )}
+                </div>
+              </div>
+              {showChat[r.id] && <Chat reservationId={r.id} currentUserId={user.id} />}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
