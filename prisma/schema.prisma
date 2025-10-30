@@ -21,6 +21,7 @@ model Listing {
   id           Int           @id @default(autoincrement())
   titulo       String
   descripcion  String
+  detalles     String?
   precio       Float
   universidad  String
   tipo         String

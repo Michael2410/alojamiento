@@ -57,7 +57,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    // expected fields: titulo, descripcion, precio, universidad, tipo, imagen?, usuarioId
+    // expected fields: titulo, descripcion, precio, universidad, tipo, imagen?, detalles?, usuarioId
     if (!body.titulo || !body.descripcion || !body.precio || !body.universidad || !body.tipo || !body.usuarioId) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
@@ -66,6 +66,7 @@ export async function POST(request: Request) {
       data: {
         titulo: body.titulo,
         descripcion: body.descripcion,
+        detalles: body.detalles || null,
         precio: Number(body.precio),
         universidad: body.universidad,
         tipo: body.tipo,

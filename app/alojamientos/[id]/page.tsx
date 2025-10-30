@@ -31,8 +31,12 @@ export default function ListingDetail({ params }: Props) {
           <p className="mt-4 font-semibold">Precio: ${listing.precio}</p>
           <p className="mt-1">Universidad: {listing.universidad}</p>
           <div className="mt-4 p-4 border rounded">
-            <h4 className="font-semibold">Anfitrión</h4>
-            <p>{listing.usuario?.nombre} · {listing.usuario?.email}</p>
+            <h4 className="font-semibold mb-2">Anfitrión</h4>
+            <p className="text-gray-700 mb-3">{listing.usuario?.nombre} · {listing.usuario?.email}</p>
+            <h5 className="font-semibold mb-1">Información de convivencia</h5>
+            <p className="text-gray-700 whitespace-pre-line">
+              {listing.detalles || `Compartirás el espacio con estudiantes. El ambiente es tranquilo y compatible con los horarios académicos. Se comparten áreas como cocina, sala y lavandería. Ideal para quienes buscan un lugar seguro, ordenado y con buena convivencia.`}
+            </p>
           </div>
           {/* Reservation form solo si hay usuario logueado */}
           <div className="mt-4">
@@ -47,4 +51,3 @@ export default function ListingDetail({ params }: Props) {
     </div>
   )
 }
-
